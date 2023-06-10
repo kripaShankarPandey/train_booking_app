@@ -1,9 +1,9 @@
-import { Button } from "@chakra-ui/react";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <>
-      <Button>jay shree ram</Button>
+      <Home />
     </>
   );
 }
