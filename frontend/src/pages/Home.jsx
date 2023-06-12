@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, HStack, Heading, Select } from "@chakra-ui/react";
 const Home = () => {
-  let sheet = new Array(70).fill(0);
+  let sheet = new Array(80).fill(0);
   const [ticket, setTicket] = useState(0);
   console.log(ticket);
   return (
@@ -16,10 +16,10 @@ const Home = () => {
         m="auto"
         display={"grid"}
         gridTemplateColumns={"repeat(7,1fr)"}
-        gap={"2"}
+        gap={"2.5"}
       >
         {sheet.map((e, ind) => (
-          <Button bg="#0DDA5B" _hover={{ bg: "#06C54E" }}>
+          <Button colorScheme="whatsapp" size={"sm"}>
             {ind + 1}
           </Button>
         ))}
