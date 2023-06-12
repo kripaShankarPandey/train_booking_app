@@ -1,4 +1,4 @@
-# Typeing Master Assignment
+#  Train Ticket Booking
 
 A Full stack web application for Train Ticket Booking.
 
@@ -23,4 +23,4 @@ then
 
 Initally UI
 
-![App Screenshot](https://i.ibb.co/1L8TCgF/Screenshot-2023-05-27-121149.png)
+![App Screenshot](https://i.ibb.co/DGvbBwh/Screenshot-2023-06-12-223333.png)
