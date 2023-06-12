@@ -1,6 +1,6 @@
 # Typeing Master Assignment
 
-A web application for prectice touch typing.
+A Full stack web application for Train Ticket Booking.
 
 ## Deployed Link https://frontend-rose-ten.vercel.app
 
@@ -9,7 +9,7 @@ A web application for prectice touch typing.
 Clone this project locallly
 
 ```bash
-  git clone https://github.com/kripaShankarPandey/chabbi-assignment.git
+  git clone https://github.com/kripaShankarPandey/train_booking_app.git
 ```
 
 then
