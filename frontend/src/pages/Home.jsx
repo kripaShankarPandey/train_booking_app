@@ -1,9 +1,35 @@
-import React, { useState } from "react";
-import { Box, Button, HStack, Heading, Select } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  Box,
+  Button,
+  HStack,
+  Heading,
+  Select,
+  Skeleton,
+  Stack,
+  VStack,
+} from "@chakra-ui/react";
 const Home = () => {
-  let sheet = new Array(80).fill(0);
-  const [ticket, setTicket] = useState(0);
-  console.log(ticket);
+  //Get all sheet data from server and show in UI
+  const [data, setData] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const [ticketQty, setTicket] = useState(0);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("http://localhost:8000/allsheet")
+      .then((res) => {
+        setData(res.data);
+        setLoading(false);
+      })
+      .catch((e) => setError(true));
+  }, []);
+
   return (
     <>
       <Box>
@@ -11,19 +37,40 @@ const Home = () => {
           Traing Ticket Booking App
         </Heading>
       </Box>
-      <Box
-        w={{ sm: "95%", lg: "80%" }}
-        m="auto"
-        display={"grid"}
-        gridTemplateColumns={"repeat(7,1fr)"}
-        gap={"2.5"}
-      >
-        {sheet.map((e, ind) => (
-          <Button colorScheme="whatsapp" size={"sm"}>
-            {ind + 1}
-          </Button>
-        ))}
-      </Box>
+      {loading ? (
+        <Stack w="80%" m="auto">
+          <Skeleton height="100px" />
+          <Skeleton height="100px" />
+          <Skeleton height="100px" />
+          <Skeleton height="100px" />
+          <Skeleton height="100px" />
+        </Stack>
+      ) : (
+        <Box
+          w={{ sm: "95%", lg: "80%" }}
+          m="auto"
+          display={"grid"}
+          gridTemplateColumns={"repeat(7,1fr)"}
+          gap={"2.5"}
+        >
+          {data.length > 0 &&
+            data.map((e) => {
+              if (!e.isBooked) {
+                return (
+                  <Button colorScheme="whatsapp" size={"sm"} key={e._id}>
+                    {e.sheetNumber}
+                  </Button>
+                );
+              } else {
+                return (
+                  <Button colorScheme="red" size={"sm"} key={e._id}>
+                    {e.sheetNumber}
+                  </Button>
+                );
+              }
+            })}
+        </Box>
+      )}
       <HStack w={{ sm: "80%", lg: "50%" }} m="auto" mt="5">
         <Select
           m="auto"
