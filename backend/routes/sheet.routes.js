@@ -37,4 +37,61 @@ sheetRouter.get("/allsheet", async (req, res) => {
   }
 });
 
+//  for booking tickets
+sheetRouter.post("/bookticket", async (req, res) => {
+  const numberOfTickets = req.body.numberOfTickets;
+
+  // Find available sheets
+  const availableSheets = await SheetModel.find({ isBooked: false }).limit(
+    numberOfTickets
+  );
+
+  // Check if enough sheets are available
+  if (availableSheets.length < numberOfTickets) {
+    return res
+      .status(400)
+      .send({ message: "Not available. Not enough seats." });
+  }
+
+  const bookedSheets = await bookSheets(numberOfTickets, availableSheets);
+
+  console.log(bookedSheets, "booked Sheet");
+  return res.send({ tickets: bookedSheets });
+});
+
+async function bookSheets(numberOfTickets, availableSheets) {
+  const bookedSheets = [];
+
+  for (let i = 0; i < numberOfTickets; i++) {
+    const sheet = availableSheets[i];
+    sheet.isBooked = true;
+    await sheet.save();
+    bookedSheets.push({ row: sheet.row, sheet: sheet.sheetNumber });
+  }
+
+  return bookedSheets;
+}
+
+// sheetRouter.post("/bookticket", async (req, res) => {
+//   //   const numberOfTickets = req.body.numberOfTickets;
+//   //   // Find available sheets
+//   //   const availableSheets = await SheetModel.find({ isBooked: false }).limit(
+//   //     numberOfTickets
+//   //   );
+//   //   // console.log(availableSheets, "aaa");
+//   //   // Check if enough sheets are available
+//   //   if (availableSheets.length < numberOfTickets) {
+//   //     return res
+//   //       .status(400)
+//   //       .send({ message: "Not available. Not enough seats." });
+//   //   }
+//   //   // Book the tickets
+//   //   const bookedSheets = availableSheets.map((sheet) => {
+//   //     sheet.isBooked = true;
+//   //     return sheet.save();
+//   //   });
+//   //   await Promise.all(bookedSheets);
+//   //   console.log(bookedSheets, "booked Sheet");
+//   //   return res.send({ tickets: bookedSheets });
+// });
 module.exports = sheetRouter;
