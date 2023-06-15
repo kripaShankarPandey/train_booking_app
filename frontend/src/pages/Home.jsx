@@ -29,18 +29,27 @@ const Home = () => {
         setData(res.data); // Store fetched data in state
         setLoading(false); // Loading complete
       })
-      .catch((e) => setError(true)); // Handle error if any
+      .catch((e) => {
+        setError("Sorry😒 Sheet Can't booked");
+        setLoading(false);
+        setBookedData([]);
+      }); // Handle error if any
   }, [bookeddata]);
 
   const handleButtonClick = () => {
+    setError(false);
+    setTicket(0);
     setLoading(true);
     axios
       .post("https://drab-plum-cockatoo-tutu.cyclic.app/bookticket", {
         numberOfTickets: ticketQty,
       })
       .then((res) => setBookedData(res.data.tickets))
-      .catch((e) => console.log(e));
-    setTicket(0);
+      .catch((e) => {
+        setError("Sorry😒 Sheet Can't booked");
+        setLoading(false);
+        setBookedData([]);
+      });
   };
   console.log(bookeddata, "dataBooked");
   return (
@@ -86,6 +95,11 @@ const Home = () => {
             })}
         </Box>
       )}
+      {error && (
+        <HStack w={{ sm: "80%", lg: "50%" }} m="auto" mt="2">
+          <Heading as="h2">{error}</Heading>
+        </HStack>
+      )}
       {bookeddata.length > 0 && (
         <HStack w={{ sm: "80%", lg: "50%" }} m="auto" mt="2">
           <Box>Your booked sheet are:</Box>
@@ -100,6 +114,7 @@ const Home = () => {
           colorScheme="facebook"
           placeholder="Select number of ticket you want to Book"
           onChange={(e) => setTicket(e.target.value)}
+          value={ticketQty}
         >
           <option value={1}>1</option>
           <option value={2}>2</option>
