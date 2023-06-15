@@ -56,7 +56,7 @@ const Home = () => {
     <>
       <Box>
         <Heading size={"xl"} m="5" textAlign={"center"}>
-          Traing Ticket Booking App
+          Train Ticket Booking App
         </Heading>
       </Box>
       {loading ? (
